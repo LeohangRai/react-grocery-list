@@ -72,3 +72,16 @@ li p span {
 ul {
   margin: 0;
 }
+
+.select-btns {
+  margin-top: 10px;
+  padding: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-btns button {
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 3px;
+}

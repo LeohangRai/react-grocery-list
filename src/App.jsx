@@ -33,10 +33,17 @@ function App() {
   }
 
   const renderItemList = () => {
-    return itemsList.map((item) => (
+    return itemsList.map((item, index) => (
       <li key={item.name}>
         <div className="container">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              toggleCompleteStatus(index, e.target.checked);
+            }}
+            value={item.completed}
+            checked={item.completed}
+          />
           <p>
             {`${item.name} `}
             {item.quantity > 1 && <span>x{item.quantity}</span>}
@@ -58,6 +65,34 @@ function App() {
     };
   }
 
+  function toggleCompleteStatus(index, status) {
+    const updatedList = [...itemsList];
+    updatedList[index].completed = status;
+    setItemsList(updatedList);
+  }
+
+  function selectAllItems() {
+    setItemsList(
+      itemsList.map((item) => {
+        return {
+          ...item,
+          completed: true
+        };
+      })
+    );
+  }
+
+  function selectNone() {
+    setItemsList(
+      itemsList.map((item) => {
+        return {
+          ...item,
+          completed: false
+        };
+      })
+    );
+  }
+
   return (
     <main className="app">
       <div>
@@ -77,6 +112,12 @@ function App() {
           </div>
         </div>
         <ul>{renderItemList()}</ul>
+        {itemsList.length ? (
+          <div className="select-btns">
+            <button onClick={selectAllItems}>Select All</button>
+            <button onClick={selectNone}>Select None</button>
+          </div>
+        ) : null}
       </div>
     </main>
   );
