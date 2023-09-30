@@ -43,11 +43,20 @@ function App() {
           </p>
         </div>
         <div>
-          <button className="remove-button">X</button>
+          <button className="remove-button" onClick={removeItem(item.name)}>
+            X
+          </button>
         </div>
       </li>
     ));
   };
+
+  function removeItem(name) {
+    return function () {
+      const updatedList = itemsList.filter((item) => item.name !== name);
+      setItemsList(updatedList);
+    };
+  }
 
   return (
     <main className="app">
