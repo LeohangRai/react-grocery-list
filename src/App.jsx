@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import './App.css';
+import { useEffect, useState } from 'react';
 import groceryCartImg from './assets/grocery-cart.png';
+import './App.css';
 
 function App() {
   const [itemInput, setItemInput] = useState('');
   const [itemsList, setItemsList] = useState([]);
+  const [isListCompleted, setIsListCompleted] = useState(false);
 
   function handleItemInputChange(e) {
     setItemInput(e.target.value);
@@ -93,11 +94,25 @@ function App() {
     );
   }
 
+  function determineListCompletionStatus() {
+    if (!itemsList.length) {
+      return setIsListCompleted(false);
+    }
+    for (const item of itemsList) {
+      if (!item.completed) {
+        return setIsListCompleted(false);
+      }
+    }
+    return setIsListCompleted(true);
+  }
+
+  useEffect(determineListCompletionStatus, [itemsList]);
+
   return (
     <main className="app">
       <div>
         <div>
-          <h4 className="success">List Complete!</h4>
+          {isListCompleted && <h4 className="success">List Complete!</h4>}
           <div className="header">
             <h1>Shopping List</h1>
             <img src={groceryCartImg} />
